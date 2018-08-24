@@ -23,11 +23,10 @@ export class MlkDatatableComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   filter: Object = {};
   filterForm: FormGroup;
-  private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>;
+  ;
 
-  // constructor(private http: HttpClient, config: StewardConfig) {
-  //   this.sterwardService = new CmStewardService(http, config);
-  // }
+  constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>) {
+  }
 
   /**
    * Generate form control from filterComponents and also appending default controls ie. date filter and search controls
