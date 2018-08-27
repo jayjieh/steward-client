@@ -9,9 +9,7 @@ export class StewardConfig{
   access_token?: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class StewardClientService<T, E> {
 
   private headers: HttpHeaders;

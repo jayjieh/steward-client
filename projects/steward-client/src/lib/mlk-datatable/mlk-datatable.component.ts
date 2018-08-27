@@ -18,6 +18,7 @@ export class MlkDatatableComponent implements OnInit {
   @Input() moreActions: MlkMoreActions;
   @Output() onActionsEvent = new EventEmitter<MlkMoreActionData>()
   @Input() filterComponents: Array<MlkDynamicControl<any>> = [];
+  @Input() params: Map<string, any>;
   page: Page<any> = new Page();
   selected = [];
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -51,10 +52,8 @@ export class MlkDatatableComponent implements OnInit {
       group[comp.name] = new FormControl('', validators)
     });
     //add default controls
-    group['from'] = new FormControl('2018-01-01', Validators.maxLength(100));
-    let toDate = new Date();
-    toDate.setDate(toDate.getFullYear() + 1);
-    group['to'] = new FormControl(this.getFormattedDate(toDate), Validators.maxLength(100));
+    group['from'] = new FormControl('', Validators.maxLength(100));
+    group['to'] = new FormControl('', Validators.maxLength(100));
     group['needle'] = new FormControl('', Validators.maxLength(200));
     this.filterForm = new FormGroup(group);
     this.loadPage({ offset: 0, limit: this.page.size }, null);
@@ -83,13 +82,16 @@ export class MlkDatatableComponent implements OnInit {
     } else {
       request = new Map();
     }
+    if(this.params){
+      this.params.forEach((value, key)=>{
+        request.set(key, value);
+      });
+    }
     request.set("page", pageInfo.offset);
     request.set("size", pageInfo.limit);
-    console.debug("Paging record using ", request);
     this.sterwardService.get(this.endpoint, request).subscribe(response => {
       if (response.code == 200) {
         this.page = response.data;
-        console.debug("Current page: ", this.page);
       }
     });
 
@@ -111,9 +113,26 @@ export class MlkDatatableComponent implements OnInit {
 
   }
 
+  /**
+   * Used to process table filter. If date filter is not provide the from value is 
+   * set to 2018-01-01 and to value is set to 1 year from today
+   * @param form 
+   */
   processFilter(form) {
     //@ts-ignore
     let f: Map<String, any> = new Map(Object.entries(this.filterForm.value));
+    //validate date 
+    if(!this.filterForm.get('from').touched){//if from is not populated remove from request
+      f.delete('from');
+      // this.filterForm.get('from').setValue('2018-01-01');
+    }
+    if(!this.filterForm.get('to').touched){//if to is not populated remove from request
+      f.delete('to');
+      // let toDate = new Date();
+      // toDate.setDate(toDate.getFullYear() + 1);
+      // this.filterForm.get('to').setValue(this.getFormattedDate(toDate));
+    }
+
     this.loadPage({ offset: this.page.number, limit: this.page.size }, f);
   }
 

@@ -35,7 +35,7 @@
             <div class="input-group">
               <div class="input-group-append">
                 <span class="input-group-text  form-icon-default">
-                  <i class="fa fa-file-text-o"></i>
+                  <i class="fa fa-calendar-o"></i>
                 </span>
               </div>
               <input type="date" placeholder="From..." class="form-control form-control-sm checking-field"
@@ -50,7 +50,7 @@
             <div class="input-group">
               <div class="input-group-append">
                 <span class="input-group-text  form-icon-default">
-                  <i class="fa fa-file-text-o"></i>
+                  <i class="fa fa-calendar-o"></i>
                 </span>
               </div>
               <input type="date" placeholder="To..." class="form-control form-control-sm checking-field"
@@ -105,7 +105,7 @@
       *ngFor="let c of columns">
       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
         <span>
-          {{row[c.fieldName]}}
+            {{(c.isDateColumn)? (row[c.fieldName] | date:'medium') : row[c.fieldName]}}
         </span>
       </ng-template>
     </ngx-datatable-column>
