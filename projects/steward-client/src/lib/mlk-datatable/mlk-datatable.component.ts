@@ -5,6 +5,8 @@ import { MlkDynamicControl, MlkInput, MlkTextarea, MlkSelect } from '../entities
 import { ResponseWrapper } from '../entities/wrappers/response-wrapper';
 import { StewardClientService } from '../steward-client.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { Queue } from 'queue-typescript';
+//const { Queue } = require('queue-typescript');
 
 @Component({
   selector: 'stw-mlk-datatable',
@@ -173,6 +175,36 @@ export class MlkDatatableComponent implements OnInit {
     day = day.length > 1 ? day : '0' + day;
 
     return year + '-' + month + '-' + day;
+  }
+
+  getFieldValue(data: Object, field: any){
+    var k: Array<string> = field.split(".");
+    var keys = new Queue<string>(...k);
+    let value = this.getObjectValue(data, keys);
+    console.debug("Found value:", value);
+    return value;
+  }
+
+  /**
+   * Used to find key value based on the key sequence provided
+   * @param data expects an object
+   * @param keys i.e. user.gender.type.type
+   */
+  getObjectValue(data: any, keys: Queue<string>) {
+    if (!(data instanceof Object)) {
+      return data[keys.tail];
+    }
+    let value = null;
+    Object.keys(data).forEach((key) => {
+      if ((key === keys.front) && (key !== keys.tail) && (data[key] instanceof Object)) {
+        keys.dequeue();
+        value = Object.keys(this.getObjectValue(data[key], keys))[0];
+      } else if(key === keys.tail){
+        value = data[key];
+      }
+    });
+    return value;
+
   }
 
 }

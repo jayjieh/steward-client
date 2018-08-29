@@ -105,7 +105,7 @@
       *ngFor="let c of columns">
       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
         <span>
-            {{(c.isDateColumn)? (row[c.fieldName] | date:'medium') : row[c.fieldName]}}
+            {{(c.isDateColumn)? (getFieldValue(row, c.fieldName) | date:'medium') : getFieldValue(row, c.fieldName)}}
         </span>
       </ng-template>
     </ngx-datatable-column>

@@ -1,6 +1,6 @@
 {
   "name": "steward-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^6.0.3",
     "@angular/core": "^6.0.3",
@@ -15,7 +15,8 @@
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
     "rxjs-compat": "6.1.0",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "queue-typescript": "^1.0.1"
   },
   "main": "bundles/steward-client.umd.js",
   "module": "fesm5/steward-client.js",

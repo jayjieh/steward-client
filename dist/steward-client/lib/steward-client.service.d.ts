@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseWrapper } from './entities/wrappers/response-wrapper';
 export declare class StewardConfig {
     base_url: string;
     access_token?: string;
+    headers?: HttpHeaders;
 }
 export declare class StewardClientService<T, E> {
     private http;

@@ -5,6 +5,7 @@ import { MlkDynamicControl } from '../entities/wrappers/mlk-dynamic-control';
 import { ResponseWrapper } from '../entities/wrappers/response-wrapper';
 import { StewardClientService } from '../steward-client.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { Queue } from 'queue-typescript';
 export declare class MlkDatatableComponent implements OnInit {
     private sterwardService;
     columns: Array<MlkDataTableColumn>;
@@ -67,6 +68,13 @@ export declare class MlkDatatableComponent implements OnInit {
      * @param date
      */
     getFormattedDate(date: any): string;
+    getFieldValue(data: Object, field: any): any;
+    /**
+     * Used to find key value based on the key sequence provided
+     * @param data expects an object
+     * @param keys i.e. user.gender.type.type
+     */
+    getObjectValue(data: any, keys: Queue<string>): any;
 }
 /**
  * Used to define datatable columns with attributes (columnName, fieldName, width, sortable, canAutoResize,
