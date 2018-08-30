@@ -20,14 +20,13 @@ export class StewardClientService<T, E> {
     constructor(private http: HttpClient, config: StewardConfig) {
         this.base_url = config.base_url;
         if (config.headers) {
-            this.headers = this.headers.append('Content-Type', 'application/json; charset=utf-8');
+            this.headers = config.headers.append('Content-Type', 'application/json; charset=utf-8');
         } else {
             this.headers = new HttpHeaders({
                 'Content-Type': 'application/json; charset=utf-8'
             });
         }
         if (config.access_token) {//append access token if the environment has access token
-            console.debug("Found access token", config.access_token);
             this.headers = this.headers.append('Authorization', "Bearer " + config.access_token);
         }
     }

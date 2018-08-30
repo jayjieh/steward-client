@@ -181,7 +181,6 @@ export class MlkDatatableComponent implements OnInit {
     var k: Array<string> = field.split(".");
     var keys = new Queue<string>(...k);
     let value = this.getObjectValue(data, keys);
-    console.debug("Found value:", value);
     return value;
   }
 
@@ -191,15 +190,14 @@ export class MlkDatatableComponent implements OnInit {
    * @param keys i.e. user.gender.type.type
    */
   getObjectValue(data: any, keys: Queue<string>) {
-    if (!(data instanceof Object)) {
+    if ((!(data instanceof Object)) || (keys.length == 1))  {
       return data[keys.tail];
     }
     let value = null;
     Object.keys(data).forEach((key) => {
-      if ((key === keys.front) && (key !== keys.tail) && (data[key] instanceof Object)) {
-        keys.dequeue();
-        value = Object.keys(this.getObjectValue(data[key], keys))[0];
-      } else if(key === keys.tail){
+      if ((key == keys.front) && (data[key] instanceof Object)) {
+        value = this.getObjectValue(data[key], keys);
+      } else if(key == keys.tail){
         value = data[key];
       }
     });
