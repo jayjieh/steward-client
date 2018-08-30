@@ -73,13 +73,23 @@ export class StewardClientService<T, E> {
             catchError(this.handleError<any>())
         );
     }
-
-    postFormData(endpoint: string, data: T): Observable<ResponseWrapper<E>> {
+    /**
+     * if
+     * @param endpoint 
+     * @param data 
+     * @param headers 
+     */
+    postFormData(endpoint: string, data: T, headers?: HttpHeaders): Observable<ResponseWrapper<E>> {
         const formData: FormData = new FormData();
         Object.keys(data).forEach((key) => {
             formData.append(key, data[key]);
         });
-        return this.http.post(this.base_url + endpoint, formData, { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.token }) }).pipe(
+        if(this.headers.get("Authorization") && (!headers)){
+            headers = new HttpHeaders({ 'Authorization': 'Bearer ' + this.token });
+        } else if(!headers){
+            headers = new HttpHeaders();
+        }
+        return this.http.post(this.base_url + endpoint, formData, { headers: headers}).pipe(
             catchError(this.handleError<any>())
         );
     }

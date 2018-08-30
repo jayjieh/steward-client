@@ -23,7 +23,13 @@ export declare class StewardClientService<T, E> {
     delete(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     get(endpoint: string, data?: Map<string, string>): Observable<ResponseWrapper<E>>;
     getFile(endpoint: string, data?: Map<string, string>): Observable<ResponseWrapper<E>>;
-    postFormData(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
+    /**
+     * if
+     * @param endpoint
+     * @param data
+     * @param headers
+     */
+    postFormData(endpoint: string, data: T, headers?: HttpHeaders): Observable<ResponseWrapper<E>>;
     postFormDataMultipart(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     putFormDataMultiPart(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     private getHttpParams(data);

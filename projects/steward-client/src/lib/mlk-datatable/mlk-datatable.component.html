@@ -13,7 +13,7 @@
   
               <select *ngIf="isSelect(control.controlType)" class="form-control form-control-sm checking-field" [formControlName]="control.name">
                 <option value="" disabled selected>{{control.placeholder}}</option>
-                <option *ngFor="let o of control.controlType.options">{{o.text}}</option>
+                <option *ngFor="let o of control.controlType.options" [value]="o.value">{{o.text}}</option>
               </select>
   
               <textarea *ngIf="isTextArea(control.controlType)" [cols]="control.controlType.cols" [rows]="control.controlType.rows" class="form-control form-control-sm checking-field"
