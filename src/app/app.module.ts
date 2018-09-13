@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { StewardClientService } from 'steward-client';
+import { StewardClientModule, StewardClientService } from 'steward-client';
 
 @NgModule({
   declarations: [
