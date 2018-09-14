@@ -11,6 +11,9 @@ export declare class MlkDatatableComponent implements OnInit {
     columns: Array<MlkDataTableColumn>;
     enableCheckbox: boolean;
     endpoint: string;
+    enableSummary: boolean;
+    summaryPosition: string;
+    summaryHeight: string;
     moreActions: MlkMoreActions;
     onActionsEvent: EventEmitter<MlkMoreActionData>;
     filterComponents: Array<MlkDynamicControl<any>>;
@@ -78,7 +81,7 @@ export declare class MlkDatatableComponent implements OnInit {
 }
 /**
  * Used to define datatable columns with attributes (columnName, fieldName, width, sortable, canAutoResize,
- * draggable, resizable, isDateColumn)
+ * draggable, resizable, isDateColumn, summaryFunc)
  */
 export interface MlkDataTableColumn {
     /**
@@ -113,6 +116,10 @@ export interface MlkDataTableColumn {
      * Used to enable formating timestamp to string date
      */
     isDateColumn?: boolean;
+    /**
+     * Function to call at the summary row
+     */
+    summaryFunc?: (any: any[]) => any;
 }
 /**
  * Used to display more actions column and the end of the table

@@ -13,11 +13,7 @@
   
               <select *ngIf="isSelect(control.controlType)" class="form-control form-control-sm checking-field" [formControlName]="control.name">
                 <option value="" disabled selected>{{control.placeholder}}</option>
-<<<<<<< HEAD
-                <option *ngFor="let o of control.controlType.options" [value]="o.value">{{o.text}}</option>
-=======
                 <option *ngFor="let o of control.controlType.options">{{o.text}}</option>
->>>>>>> b95873eb1614aa4414b27e3f57b3915ed75135ae
               </select>
   
               <textarea *ngIf="isTextArea(control.controlType)" [cols]="control.controlType.cols" [rows]="control.controlType.rows" class="form-control form-control-sm checking-field"
@@ -98,13 +94,30 @@
     </div>
   </div>
   
-  <ngx-datatable #table class="bootstrap" [headerHeight]="50" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'"
-    [rows]="page.content" [selected]="selected" [selectionType]="'checkbox'" (activate)="onActivate($event)" (select)='onSelect($event)'
-    [count]="page.totalElements" [offset]="page.number" [externalPaging]="true" [limit]="page.size" (page)="loadPage($event, null)">
+  <ngx-datatable 
+    #table 
+    [summaryRow]="enableSummary"
+    [summaryPosition]="summaryPosition"
+    [summaryHeight]="summaryHeight"
+    class="bootstrap" 
+    [headerHeight]="50" 
+    [columnMode]="'force'" 
+    [footerHeight]="50" 
+    [rowHeight]="'auto'"
+    [rows]="page.content" 
+    [selected]="selected" 
+    [selectionType]="'checkbox'" 
+    (activate)="onActivate($event)" 
+    (select)='onSelect($event)'
+    [count]="page.totalElements" 
+    [offset]="page.number" 
+    [externalPaging]="true" 
+    [limit]="page.size" 
+    (page)="loadPage($event, null)">
     <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="true" [resizeable]="false" [headerCheckboxable]="true"
       [checkboxable]="true" *ngIf="enableCheckbox">
     </ngx-datatable-column>
-    <ngx-datatable-column [canAutoResize]="(c.canAutoResize) ? c.canAutoResize : true" [name]="c.columnName" [width]="c.width"
+    <ngx-datatable-column [summaryFunc]="(c.summaryFunc) ? c.summaryFunc : null" [canAutoResize]="(c.canAutoResize) ? c.canAutoResize : true" [name]="c.columnName" [width]="c.width"
       [sortable]="(c.sortable) ? c.sortable : true" [draggable]="(c.draggable) ? c.draggable : true" [resizeable]="(c.resizeable) ? c.resizeable : true"
       *ngFor="let c of columns">
       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">

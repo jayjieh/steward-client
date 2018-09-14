@@ -15,8 +15,11 @@ import { Queue } from 'queue-typescript';
 })
 export class MlkDatatableComponent implements OnInit {
   @Input() columns: Array<MlkDataTableColumn> = [];
-  @Input() enableCheckbox: boolean = true;
+  @Input() enableCheckbox: boolean = false;
   @Input() endpoint: string;
+  @Input() enableSummary: boolean = false;
+  @Input() summaryPosition: string = "'bottom'";
+  @Input() summaryHeight: string = "'auto'";
   @Input() moreActions: MlkMoreActions;
   @Output() onActionsEvent = new EventEmitter<MlkMoreActionData>()
   @Input() filterComponents: Array<MlkDynamicControl<any>> = [];
@@ -208,7 +211,7 @@ export class MlkDatatableComponent implements OnInit {
 }
 /**
  * Used to define datatable columns with attributes (columnName, fieldName, width, sortable, canAutoResize,
- * draggable, resizable, isDateColumn)
+ * draggable, resizable, isDateColumn, summaryFunc)
  */
 export interface MlkDataTableColumn {
   /**
@@ -243,6 +246,10 @@ export interface MlkDataTableColumn {
    * Used to enable formating timestamp to string date
    */
   isDateColumn?: boolean;
+  /**
+   * Function to call at the summary row
+   */
+  summaryFunc?: (any: any[]) => any;
 }
 
 /**
