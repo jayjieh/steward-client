@@ -23,6 +23,7 @@ export declare class MlkDatatableComponent implements OnInit {
     table: DatatableComponent;
     filter: Object;
     filterForm: FormGroup;
+    emptySummaryFunc: () => null;
     constructor(sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>);
     /**
      * Generate form control from filterComponents and also appending default controls ie. date filter and search controls
@@ -66,6 +67,7 @@ export declare class MlkDatatableComponent implements OnInit {
      * Used to check if miliki control is textarea
      */
     isTextArea(control: any): boolean;
+    summaryFunc(cell: any): string;
     /**
      * Used to format date to string yyyy-MM-dd
      * @param date

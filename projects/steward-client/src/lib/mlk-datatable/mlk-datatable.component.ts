@@ -29,6 +29,7 @@ export class MlkDatatableComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   filter: Object = {};
   filterForm: FormGroup;
+  emptySummaryFunc: () => null;
   ;
 
   constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>) {
@@ -162,6 +163,10 @@ export class MlkDatatableComponent implements OnInit {
    */
   isTextArea(control: any) {
     return control instanceof MlkTextarea;
+  }
+
+  summaryFunc(cell: any) {
+    return(``);
   }
 
   /**
