@@ -11,6 +11,8 @@ export declare class MlkDatatableComponent implements OnInit {
     columns: Array<MlkDataTableColumn>;
     enableCheckbox: boolean;
     endpoint: string;
+    enableFilterHeader: boolean;
+    enableDefaultTableHeader: boolean;
     enableSummary: boolean;
     summaryPosition: string;
     summaryHeight: string;
@@ -150,4 +152,8 @@ export interface MlkMoreActionData {
      * Action name e.g. Edit, Delete
      */
     actionName: any;
+    /**
+     * Action row : the clicked row
+     */
+    actionRow?: any;
 }

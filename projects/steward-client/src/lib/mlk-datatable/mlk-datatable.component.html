@@ -1,4 +1,4 @@
-<div class="card card-outline-default">
+<div class="card card-outline-default" *ngIf="enableFilterHeader">
     <div class="card-body">
       <form (ngSubmit)="processFilter(filterForm)" [formGroup]="filterForm">
         <div class="row">
@@ -30,6 +30,7 @@
               <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('max')">Should be less than {{control.controlType.max}}</span>
             </span>
           </div>
+          <div *ngIf="enableDefaultTableHeader">
           <div class="col-md-3  mb-3">
             <label for="from">From: </label>
             <div class="input-group">
@@ -76,19 +77,22 @@
               <span class="text-danger" *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 200 characters</span>
           </span>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="pull-right inline-buttons">
-              <button class="btn btn-secondary btn-sm" type="reset">
-                <i class="fa fa-repeat" aria-hidden="true"></i>
-                Reset
-              </button>
-              <button class="btn btn-primary btn-sm pull-right" type="submit">
-                <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
-                Filter
-              </button>
+        </div>
+          <div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="pull-right inline-buttons">
+                  <button class="btn btn-warning btn-sm" type="reset">
+                    <i class="fa fa-repeat" aria-hidden="true"></i>
+                    Reset
+                  </button>
+                  <button class="btn btn-success btn-sm pull-right" type="submit">
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+                    Filter
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
         </div>
       </form>
     </div>
@@ -138,7 +142,7 @@
               <i class="fa fa-list-ul" aria-hidden="true"></i>
             </button>
             <div class="dropdown-menu">
-              <a class="dropdown-item" *ngFor="let action of moreActions.actions" href="javascript:;" (click)="onActionClick({id: row[moreActions.idFieldName], actionName: action.actionName})">{{action.actionName}}</a>
+              <a class="dropdown-item" *ngFor="let action of moreActions.actions" href="javascript:;" (click)="onActionClick({id: row[moreActions.idFieldName], actionName: action.actionName, actionRow: row})">{{action.actionName}}</a>
               <!-- <a class="dropdown-item" href="#">Another action</a>
                             <a class="dropdown-item" href="#">Something else here</a>
                             <div role="separator" class="dropdown-divider"></div>
