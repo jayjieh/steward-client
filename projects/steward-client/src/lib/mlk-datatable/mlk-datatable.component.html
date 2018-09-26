@@ -1,7 +1,8 @@
 <div class="card card-outline-default" *ngIf="enableFilterHeader">
-    <div class="card-body">
-      <form (ngSubmit)="processFilter(filterForm)" [formGroup]="filterForm">
-        <div class="row">
+<div class="card-body">
+<form (ngSubmit)="processFilter(filterForm)" [formGroup]="filterForm">
+
+<div class="row">
           <div class="col-md-3  mb-3" *ngFor="let control of filterComponents">
             <label for="from">{{control.label}}: </label>
             <div class="input-group">
@@ -30,7 +31,9 @@
               <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('max')">Should be less than {{control.controlType.max}}</span>
             </span>
           </div>
-          <div *ngIf="enableDefaultTableHeader">
+</div>
+
+<div class="row" *ngIf="enableDefaultTableHeader">
           <div class="col-md-3  mb-3">
             <label for="from">From: </label>
             <div class="input-group">
@@ -76,27 +79,26 @@
           <span class="help-block" *ngIf="filterForm.get('from').touched">
               <span class="text-danger" *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 200 characters</span>
           </span>
-        </div>
-        </div>
-          <div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="pull-right inline-buttons">
-                  <button class="btn btn-warning btn-sm" type="reset">
-                    <i class="fa fa-repeat" aria-hidden="true"></i>
-                    Reset
-                  </button>
-                  <button class="btn btn-success btn-sm pull-right" type="submit">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
-                    Filter
-                  </button>
-                </div>
-              </div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+            <div class="pull-right inline-buttons">
+              <button class="btn btn-warning btn-sm" type="reset">
+                <i class="fa fa-repeat" aria-hidden="true"></i>
+                Reset
+              </button>
+              <button class="btn btn-success btn-sm pull-right" type="submit">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+                Filter
+              </button>
             </div>
-        </div>
-      </form>
-    </div>
-  </div>
+	</div>
+</div>
+      
+</form>
+</div>
+</div>
   
   <ngx-datatable 
     #table 
