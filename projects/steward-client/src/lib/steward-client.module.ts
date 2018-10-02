@@ -6,6 +6,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StewardConfig } from './steward-client.service';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { StewardConfig } from './steward-client.service';
     ReactiveFormsModule,
     NgxDatatableModule,
     CommonModule,
+    BsDatepickerModule.forRoot(),
     HttpClientModule
   ],
   declarations: [StewardClientComponent, MlkDatatableComponent],

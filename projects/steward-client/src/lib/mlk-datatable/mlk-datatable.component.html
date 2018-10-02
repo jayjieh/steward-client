@@ -34,34 +34,64 @@
 </div>
 
 <div class="row" *ngIf="enableDefaultTableHeader">
-          <div class="col-md-3  mb-3">
+          <div class="col-md-3 mb-3">
             <label for="from">From: </label>
             <div class="input-group">
               <div class="input-group-append">
-                <span class="input-group-text  form-icon-default">
+                <span class="input-group-text form-icon-default">
                   <i class="fa fa-calendar-o"></i>
                 </span>
               </div>
-              <input type="date" placeholder="From..." class="form-control form-control-sm checking-field"
-                formControlName="from" />
+                <input 
+                type="text" 
+                class="form-control form-control-sm checking-field" 
+                id="inputTravelDate" 
+                formControlName="from" 
+                placeholder="From..."
+                #dpfrom="bsDatepicker"
+                bsDatepicker
+                [outsideClick]="false"
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red' }"
+                maxlength="30"
+                required
+                readonly
+                />
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="dpfrom.toggle()" [attr.aria-expanded]="dpfrom.isOpen"><i class="fa fa-th"></i></button>
+                  </div>
             </div>
             <span class="help-block" *ngIf="filterForm.get('from').touched">
-                <span class="text-danger" *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 100 characters</span>
+                <span class="text-danger" *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 30 characters</span>
             </span>
           </div>
-          <div class="col-md-3  mb-3">
+          <div class="col-md-3 mb-3">
             <label for="from">To: </label>
             <div class="input-group">
               <div class="input-group-append">
-                <span class="input-group-text  form-icon-default">
+                <span class="input-group-text form-icon-default">
                   <i class="fa fa-calendar-o"></i>
                 </span>
               </div>
-              <input type="date" placeholder="To..." class="form-control form-control-sm checking-field"
-                formControlName="to" value="" />
+                <input 
+                type="text" 
+                class="form-control form-control-sm checking-field" 
+                id="inputTravelDate" 
+                formControlName="to" 
+                placeholder="To..."
+                #dpto="bsDatepicker"
+                bsDatepicker
+                [outsideClick]="false"
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red' }"
+                maxlength="30"
+                required
+                readonly
+                />
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" (click)="dpto.toggle()" [attr.aria-expanded]="dpto.isOpen"><i class="fa fa-th"></i></button>
+                  </div>  
             </div>
-            <span class="help-block" *ngIf="filterForm.get('from').touched">
-                <span class="text-danger" *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 100 characters</span>
+            <span class="help-block" *ngIf="filterForm.get('to').touched">
+                <span class="text-danger" *ngIf="filterForm.get('to').hasError('maxlength')">Maximum of 30 characters</span>
             </span>
           </div>
           <div class="col-md-3 mb-3">
