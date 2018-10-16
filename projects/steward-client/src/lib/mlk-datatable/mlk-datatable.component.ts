@@ -130,15 +130,29 @@ export class MlkDatatableComponent implements OnInit {
     //@ts-ignore
     let f: Map<String, any> = new Map(Object.entries(this.filterForm.value));
     //validate date 
-    if(!this.filterForm.get('from').touched){//if from is not populated remove from request
+    if(!this.filterForm.get('from').touched)
+    {//if from is not populated remove from request
       f.delete('from');
       // this.filterForm.get('from').setValue('2018-01-01');
     }
-    if(!this.filterForm.get('to').touched){//if to is not populated remove from request
+    else
+    {
+      //f.get('from').setValue(new Date(this.filterForm.get('from').value));
+      let fd = new Date(this.filterForm.get('from').value);
+      f.set('from', fd.toISOString());
+    }
+    if(!this.filterForm.get('to').touched)
+    {//if to is not populated remove from request
       f.delete('to');
       // let toDate = new Date();
       // toDate.setDate(toDate.getFullYear() + 1);
       // this.filterForm.get('to').setValue(this.getFormattedDate(toDate));
+    }
+    else
+    {
+      //f.get('to').setValue(new Date(this.filterForm.get('to').value));
+      let td = new Date(this.filterForm.get('to').value);
+      f.set('to', td.toISOString());
     }
 
     this.loadPage({ offset: this.page.number, limit: this.page.size }, f);
