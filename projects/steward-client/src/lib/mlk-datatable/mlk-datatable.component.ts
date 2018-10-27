@@ -13,7 +13,13 @@ import { Queue } from 'queue-typescript';
   templateUrl: './mlk-datatable.component.html',
   styleUrls: ['./mlk-datatable.component.css']
 })
-export class MlkDatatableComponent implements OnInit {
+export class MlkDatatableComponent implements OnInit 
+{
+  @Input() tableRowHeight: number = 50;
+  @Input() tableFooterHeight: number = 50;
+  @Input() tableHeaderHeight: number = 50;
+  @Input() verticalScrollActive: boolean = false;
+  @Input() horizontalScrollActive: boolean = false;
   @Input() columns: Array<MlkDataTableColumn> = [];
   @Input() enableCheckbox: boolean = false;
   @Input() endpoint: string;
@@ -232,7 +238,7 @@ export class MlkDatatableComponent implements OnInit {
 }
 /**
  * Used to define datatable columns with attributes (columnName, fieldName, width, sortable, canAutoResize,
- * draggable, resizable, isDateColumn, summaryFunc)
+ * draggable, resizable, isDateColumn, isCurrencyColumn, currencyText, summaryFunc)
  */
 export interface MlkDataTableColumn {
   /**
@@ -267,6 +273,17 @@ export interface MlkDataTableColumn {
    * Used to enable formating timestamp to string date
    */
   isDateColumn?: boolean;
+
+  /**
+   * Used to enable formating string to string currency
+   */
+  isCurrencyColumn?: boolean;
+
+  /**
+   * Used to set the currency string
+   */
+  currencyText?: string;
+
   /**
    * Function to call at the summary row
    */

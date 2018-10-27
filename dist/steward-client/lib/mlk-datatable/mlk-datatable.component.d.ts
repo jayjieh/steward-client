@@ -8,6 +8,11 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Queue } from 'queue-typescript';
 export declare class MlkDatatableComponent implements OnInit {
     private sterwardService;
+    tableRowHeight: number;
+    tableFooterHeight: number;
+    tableHeaderHeight: number;
+    verticalScrollActive: boolean;
+    horizontalScrollActive: boolean;
     columns: Array<MlkDataTableColumn>;
     enableCheckbox: boolean;
     endpoint: string;
@@ -85,7 +90,7 @@ export declare class MlkDatatableComponent implements OnInit {
 }
 /**
  * Used to define datatable columns with attributes (columnName, fieldName, width, sortable, canAutoResize,
- * draggable, resizable, isDateColumn, summaryFunc)
+ * draggable, resizable, isDateColumn, isCurrencyColumn, currencyText, summaryFunc)
  */
 export interface MlkDataTableColumn {
     /**
@@ -120,6 +125,14 @@ export interface MlkDataTableColumn {
      * Used to enable formating timestamp to string date
      */
     isDateColumn?: boolean;
+    /**
+     * Used to enable formating string to string currency
+     */
+    isCurrencyColumn?: boolean;
+    /**
+     * Used to set the currency string
+     */
+    currencyText?: string;
     /**
      * Function to call at the summary row
      */

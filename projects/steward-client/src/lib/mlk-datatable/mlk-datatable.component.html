@@ -132,14 +132,16 @@
   
   <ngx-datatable 
     #table 
+    [rowHeight]="tableRowHeight"
+    [footerHeight]="tableFooterHeight"
+    [headerHeight]="tableHeaderHeight" 
+    [scrollbarV]="verticalScrollActive"
+    [scrollbarH]="horizontalScrollActive"
     [summaryRow]="enableSummary"
     [summaryPosition]="summaryPosition"
     [summaryHeight]="summaryHeight"
-    class="bootstrap" 
-    [headerHeight]="50" 
-    [columnMode]="'force'" 
-    [footerHeight]="50" 
-    [rowHeight]="'auto'"
+    class="bootstrap"    
+    [columnMode]="'force'"
     [rows]="page.content" 
     [selected]="selected" 
     [selectionType]="'checkbox'" 
@@ -161,7 +163,42 @@
       </ng-template>
       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
         <span>
-            {{(c.isDateColumn)? (getFieldValue(row, c.fieldName) | date:'medium') : getFieldValue(row, c.fieldName)}}
+            <!--{{(c.isDateColumn)?(getFieldValue(row, c.fieldName) | date:'medium') : getFieldValue(row, c.fieldName)}} -->
+            <!--{{
+              if(c.isDateColumn)
+              { 
+                (getFieldValue(row, c.fieldName) | date:'medium') 
+              }
+              else if(c.isCurrencyColumn)
+              { 
+                (getFieldValue(row, c.fieldName) | currency:'c.currencyText') 
+              }
+              else 
+              {
+                getFieldValue(row, c.fieldName)
+              }
+            }}-->
+            <!--<div [ngSwitch]="c.isDateColumn">
+              <div *ngSwitchCase="true">{{(getFieldValue(row, c.fieldName) | date:'medium')}}</div>
+              <div *ngSwitchDefault></div>
+            </div>
+            <div [ngSwitch]="c.isCurrencyColumn">
+              <div *ngSwitchCase="true">{{(getFieldValue(row, c.fieldName) | currency:'c.currencyText')}}</div>
+              <div *ngSwitchDefault></div>
+            </div> -->
+            <ng-container *ngIf="c.isDateColumn; then t10"></ng-container>
+            <ng-container *ngIf="c.isCurrencyColumn && c.currencyText; then t40"></ng-container>
+            <ng-container *ngIf="!c.isDateColumn && !c.isCurrencyColumn; then t70"></ng-container>
+
+            <ng-template #t10>
+                {{(getFieldValue(row, c.fieldName) | date:'medium')}}
+            </ng-template>
+            <ng-template #t40>
+                {{(getFieldValue(row, c.fieldName) | currency:'c.currencyText')}}
+            </ng-template>
+            <ng-template #t70>
+                {{getFieldValue(row, c.fieldName)}}
+            </ng-template>
         </span>
       </ng-template>
     </ngx-datatable-column>

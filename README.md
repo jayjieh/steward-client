@@ -21,7 +21,13 @@ e.g "steward-client": "./steward-service/steward-client-0.0.5.tgz",
 		  [enableCheckbox]=false
 		  [enableFilterHeader]=true
 		  [enableDefaultTableHeader]=true
-		  [filterComponents]="filterControls">
+		  [filterComponents]="filterControls"
+		  [tableRowHeight] = 50;
+  		  [tableFooterHeight] = 50;
+  		  [tableHeaderHeight] = 50;
+  		  [verticalScrollActive] = false;
+  		  [horizontalScrollActive] = false;
+		  >
 		</stw-mlk-datatable>
 
 		where:
@@ -40,7 +46,7 @@ e.g "steward-client": "./steward-service/steward-client-0.0.5.tgz",
 		    {columnName: 'SERIAL NO', fieldName: 'deviceId'},
 		    {columnName: 'TAXPAYER NAME', fieldName:'businessName'},
 		    {columnName: 'REG. DATE', isDateColumn: true, fieldName: 'taxpayerId.createdAt'}
-
+			{columnName: 'Tax Amo', isCurrencyColumn: true, currencyText: 'KES', fieldName: 'taxpayerId.createdAt'}
 		  ];
 
 		filterControls: Array<MlkDynamicControl<any>>;
