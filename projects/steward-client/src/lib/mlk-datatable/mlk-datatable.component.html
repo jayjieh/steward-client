@@ -188,13 +188,14 @@
             </div> -->
             <ng-container *ngIf="c.isDateColumn; then t10"></ng-container>
             <ng-container *ngIf="c.isCurrencyColumn && c.currencyText; then t40"></ng-container>
+            <ng-container *ngIf="c.isCurrencyColumn && !c.currencyText; then t70"></ng-container>
             <ng-container *ngIf="!c.isDateColumn && !c.isCurrencyColumn; then t70"></ng-container>
 
             <ng-template #t10>
                 {{(getFieldValue(row, c.fieldName) | date:'medium')}}
             </ng-template>
             <ng-template #t40>
-                {{(getFieldValue(row, c.fieldName) | currency:'c.currencyText')}}
+                {{(getFieldValue(row, c.fieldName) | currency:c.currencyText:'code')}}
             </ng-template>
             <ng-template #t70>
                 {{getFieldValue(row, c.fieldName)}}

@@ -22,11 +22,11 @@ e.g "steward-client": "./steward-service/steward-client-0.0.5.tgz",
 		  [enableFilterHeader]=true
 		  [enableDefaultTableHeader]=true
 		  [filterComponents]="filterControls"
-		  [tableRowHeight] = 50;
-  		  [tableFooterHeight] = 50;
-  		  [tableHeaderHeight] = 50;
-  		  [verticalScrollActive] = false;
-  		  [horizontalScrollActive] = false;
+		  [tableRowHeight] = 50
+  		  [tableFooterHeight] = 50
+  		  [tableHeaderHeight] = 50
+  		  [verticalScrollActive] = false
+  		  [horizontalScrollActive] = false
 		  >
 		</stw-mlk-datatable>
 
