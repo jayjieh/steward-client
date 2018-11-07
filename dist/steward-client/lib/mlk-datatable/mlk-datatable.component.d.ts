@@ -1,4 +1,4 @@
-import { OnInit, EventEmitter } from '@angular/core';
+import { EventEmitter, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Page } from '../entities/wrappers/page';
 import { MlkDynamicControl } from '../entities/wrappers/mlk-dynamic-control';
@@ -27,6 +27,7 @@ export declare class MlkDatatableComponent implements OnInit {
     params: Map<string, any>;
     page: Page<any>;
     selected: any[];
+    onSelected: EventEmitter<any[]>;
     table: DatatableComponent;
     filter: Object;
     filterForm: FormGroup;
@@ -51,7 +52,9 @@ export declare class MlkDatatableComponent implements OnInit {
      * Used to handle select option
      * @param event
      */
-    onSelect(event: any): void;
+    onSelect({selected}: {
+        selected: any;
+    }): void;
     onActivate(event: any): void;
     updateFilter(event: any): void;
     /**

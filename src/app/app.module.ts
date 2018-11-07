@@ -11,10 +11,10 @@ import { StewardClientModule, StewardClientService } from 'steward-client';
   imports: [
     BrowserModule,
     StewardClientModule.forRoot(
-      {base_url: "http://localhost:8762", access_token: "fab6b0ed-1a85-4e7f-9491-ccc40ba69fe7"}
+      {base_url: "http://192.168.1.84:8763/miliki-oauth-service", access_token: "07c9dcd2-7eac-44c1-b126-22d14f80938c"}
     )
   ],
-  providers: [],
+  providers: [StewardClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
