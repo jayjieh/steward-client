@@ -1,44 +1,45 @@
-import { Component, OnInit, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Page } from '../entities/wrappers/page';
-import { MlkDynamicControl, MlkInput, MlkTextarea, MlkSelect } from '../entities/wrappers/mlk-dynamic-control';
-import { ResponseWrapper } from '../entities/wrappers/response-wrapper';
-import { StewardClientService } from '../steward-client.service';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { Queue } from 'queue-typescript';
-//const { Queue } = require('queue-typescript');
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Page} from '../entities/wrappers/page';
+import {MlkDynamicControl, MlkInput, MlkSelect, MlkTextarea} from '../entities/wrappers/mlk-dynamic-control';
+import {ResponseWrapper} from '../entities/wrappers/response-wrapper';
+import {StewardClientService} from '../steward-client.service';
+import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {Queue} from 'queue-typescript';
+
+// const { Queue } = require('queue-typescript');
 
 @Component({
   selector: 'stw-mlk-datatable',
   templateUrl: './mlk-datatable.component.html',
   styleUrls: ['./mlk-datatable.component.css']
 })
-export class MlkDatatableComponent implements OnInit 
-{
-  @Input() tableRowHeight: number = 50;
-  @Input() tableFooterHeight: number = 50;
-  @Input() tableHeaderHeight: number = 50;
-  @Input() verticalScrollActive: boolean = false;
-  @Input() horizontalScrollActive: boolean = false;
+export class MlkDatatableComponent implements OnInit {
+  @Input() tableRowHeight = 50;
+  @Input() tableFooterHeight = 50;
+  @Input() tableHeaderHeight = 50;
+  @Input() verticalScrollActive = false;
+  @Input() horizontalScrollActive = false;
   @Input() columns: Array<MlkDataTableColumn> = [];
-  @Input() enableCheckbox: boolean = false;
+  @Input() enableCheckbox = false;
   @Input() endpoint: string;
-  @Input() enableFilterHeader: boolean = false;
-  @Input() enableDefaultTableHeader: boolean = false;
-  @Input() enableSummary: boolean = false;
-  @Input() summaryPosition: string = "'bottom'";
-  @Input() summaryHeight: string = "'auto'";
+  @Input() enableFilterHeader = false;
+  @Input() enableDefaultTableHeader = false;
+  @Input() enableSummary = false;
+  @Input() summaryPosition = '\'bottom\'';
+  @Input() summaryHeight = '\'auto\'';
   @Input() moreActions: MlkMoreActions;
-  @Output() onActionsEvent = new EventEmitter<MlkMoreActionData>()
+  @Output() onActionsEvent = new EventEmitter<MlkMoreActionData>();
   @Input() filterComponents: Array<MlkDynamicControl<any>> = [];
   @Input() params: Map<string, any>;
   page: Page<any> = new Page();
   selected = [];
+  @Output() onSelected = new EventEmitter<Array<any>>();
   @ViewChild(DatatableComponent) table: DatatableComponent;
   filter: Object = {};
   filterForm: FormGroup;
   emptySummaryFunc: () => null;
-  ;
+
 
   constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>) {
   }
@@ -47,30 +48,30 @@ export class MlkDatatableComponent implements OnInit
    * Generate form control from filterComponents and also appending default controls ie. date filter and search controls
    */
   ngOnInit() {
-    let group = {};
+    const group = {};
     this.filterComponents.forEach(comp => {
-      let validators: Array<any> = [];
+      const validators: Array<any> = [];
       if (comp.isRequired) {
         validators.push(Validators.required);
       }
 
-      if(comp.controlType instanceof MlkInput || comp.controlType instanceof MlkTextarea){
+      if (comp.controlType instanceof MlkInput || comp.controlType instanceof MlkTextarea) {
         validators.push(Validators.minLength(comp.controlType.minLength));
         validators.push(Validators.maxLength(comp.controlType.maxLength));
       }
 
-      if(comp.controlType instanceof MlkInput){
+      if (comp.controlType instanceof MlkInput) {
         validators.push(Validators.max(comp.controlType.max));
         validators.push(Validators.min(comp.controlType.min));
       }
-      group[comp.name] = new FormControl('', validators)
+      group[comp.name] = new FormControl('', validators);
     });
-    //add default controls
+    // add default controls
     group['from'] = new FormControl('', Validators.maxLength(30));
     group['to'] = new FormControl('', Validators.maxLength(30));
     group['needle'] = new FormControl('', Validators.maxLength(200));
     this.filterForm = new FormGroup(group);
-    this.loadPage({ offset: 0, limit: this.page.size }, null);
+    this.loadPage({offset: 0, limit: this.page.size}, null);
   }
 
   /**
@@ -96,15 +97,15 @@ export class MlkDatatableComponent implements OnInit
     } else {
       request = new Map();
     }
-    if(this.params){
-      this.params.forEach((value, key)=>{
+    if (this.params) {
+      this.params.forEach((value, key) => {
         request.set(key, value);
       });
     }
-    request.set("page", pageInfo.offset);
-    request.set("size", pageInfo.limit);
+    request.set('page', pageInfo.offset);
+    request.set('size', pageInfo.limit);
     this.sterwardService.get(this.endpoint, request).subscribe(response => {
-      if (response.code == 200) {
+      if (response.code === 200) {
         this.page = response.data;
       }
     });
@@ -115,8 +116,12 @@ export class MlkDatatableComponent implements OnInit
    * Used to handle select option
    * @param event
    */
-  onSelect(event) {
+  onSelect({selected}) {
+    console.log('Select Event', selected, this.selected);
 
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+    this.onSelected.emit(this.selected);
   }
 
   onActivate(event) {
@@ -128,40 +133,34 @@ export class MlkDatatableComponent implements OnInit
   }
 
   /**
-   * Used to process table filter. If date filter is not provide the from value is 
+   * Used to process table filter. If date filter is not provide the from value is
    * set to 2018-01-01 and to value is set to 1 year from today
-   * @param form 
+   * @param form
    */
   processFilter(form) {
-    //@ts-ignore
-    let f: Map<String, any> = new Map(Object.entries(this.filterForm.value));
-    //validate date 
-    if(!this.filterForm.get('from').touched)
-    {//if from is not populated remove from request
+    // @ts-ignore
+    const f: Map<String, any> = new Map(Object.entries(this.filterForm.value));
+    // validate date
+    if (!this.filterForm.get('from').touched) {// if from is not populated remove from request
       f.delete('from');
       // this.filterForm.get('from').setValue('2018-01-01');
-    }
-    else
-    {
-      //f.get('from').setValue(new Date(this.filterForm.get('from').value));
-      let fd = new Date(this.filterForm.get('from').value);
+    } else {
+      // f.get('from').setValue(new Date(this.filterForm.get('from').value));
+      const fd = new Date(this.filterForm.get('from').value);
       f.set('from', fd.toISOString());
     }
-    if(!this.filterForm.get('to').touched)
-    {//if to is not populated remove from request
+    if (!this.filterForm.get('to').touched) {// if to is not populated remove from request
       f.delete('to');
       // let toDate = new Date();
       // toDate.setDate(toDate.getFullYear() + 1);
       // this.filterForm.get('to').setValue(this.getFormattedDate(toDate));
-    }
-    else
-    {
-      //f.get('to').setValue(new Date(this.filterForm.get('to').value));
-      let td = new Date(this.filterForm.get('to').value);
+    } else {
+      // f.get('to').setValue(new Date(this.filterForm.get('to').value));
+      const td = new Date(this.filterForm.get('to').value);
       f.set('to', td.toISOString());
     }
 
-    this.loadPage({ offset: this.page.number, limit: this.page.size }, f);
+    this.loadPage({offset: this.page.number, limit: this.page.size}, f);
   }
 
   /**
@@ -188,7 +187,7 @@ export class MlkDatatableComponent implements OnInit
   }
 
   summaryFunc(cell: any) {
-    return(``);
+    return (``);
   }
 
   /**
@@ -196,21 +195,21 @@ export class MlkDatatableComponent implements OnInit
    * @param date
    */
   getFormattedDate(date) {
-    var year = date.getFullYear();
+    const year = date.getFullYear();
 
-    var month = (1 + date.getMonth()).toString();
+    let month = (1 + date.getMonth()).toString();
     month = month.length > 1 ? month : '0' + month;
 
-    var day = date.getDate().toString();
+    let day = date.getDate().toString();
     day = day.length > 1 ? day : '0' + day;
 
     return year + '-' + month + '-' + day;
   }
 
-  getFieldValue(data: Object, field: any){
-    var k: Array<string> = field.split(".");
-    var keys = new Queue<string>(...k);
-    let value = this.getObjectValue(data, keys);
+  getFieldValue(data: Object, field: any) {
+    const k: Array<string> = field.split('.');
+    const keys = new Queue<string>(...k);
+    const value = this.getObjectValue(data, keys);
     return value;
   }
 
@@ -220,14 +219,14 @@ export class MlkDatatableComponent implements OnInit
    * @param keys i.e. user.gender.type.type
    */
   getObjectValue(data: any, keys: Queue<string>) {
-    if ((!(data instanceof Object)) || (keys.length == 1))  {
+    if ((!(data instanceof Object)) || (keys.length === 1)) {
       return data[keys.tail];
     }
     let value = null;
     Object.keys(data).forEach((key) => {
-      if ((key == keys.front) && (data[key] instanceof Object)) {
+      if ((key === keys.front) && (data[key] instanceof Object)) {
         value = this.getObjectValue(data[key], keys);
-      } else if(key == keys.tail){
+      } else if (key === keys.tail) {
         value = data[key];
       }
     });
@@ -236,6 +235,7 @@ export class MlkDatatableComponent implements OnInit
   }
 
 }
+
 /**
  * Used to define datatable columns with attributes (columnName, fieldName, width, sortable, canAutoResize,
  * draggable, resizable, isDateColumn, isCurrencyColumn, currencyText, summaryFunc)
@@ -297,11 +297,11 @@ export class MlkMoreActions {
   /**
    * Action Column name e.g. More Actions
    */
-  name: string = "Actions";
+  name = 'Actions';
   /**
    * Field name id from the server response e.g userId
    */
-  idFieldName: string = "id";
+  idFieldName = 'id';
   /**
    * Actions e.g. Edit, Delete
    */

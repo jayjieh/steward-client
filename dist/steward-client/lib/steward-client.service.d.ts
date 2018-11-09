@@ -8,6 +8,7 @@ export declare class StewardConfig {
 }
 export declare class StewardClientService<T, E> {
     private http;
+    private config;
     private headers;
     token: string;
     base_url: string;
