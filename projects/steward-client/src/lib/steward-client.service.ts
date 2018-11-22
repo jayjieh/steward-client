@@ -20,7 +20,6 @@ export class StewardClientService<T, E> {
   constructor(private http: HttpClient, private config: StewardConfig) {
     this.base_url = config.base_url;
     if (config.headers) {
-      // this.headers = config.headers.append('Content-Type', 'application/json; charset=utf-8');
       this.headers = config.headers;
     } else {
       this.headers = new HttpHeaders({
@@ -51,7 +50,10 @@ export class StewardClientService<T, E> {
   }
 
   delete(endpoint: string, data: T): Observable<ResponseWrapper<E>> {
-    return this.http.request('delete', this.base_url + endpoint, {headers: this.headers.append('Content-Type', 'application/json; charset=utf-8'), body: JSON.stringify(data)}).pipe(
+    return this.http.request('delete', this.base_url + endpoint, {
+      headers: this.headers.append('Content-Type', 'application/json; charset=utf-8'),
+      body: JSON.stringify(data)
+    }).pipe(
       catchError(this.handleError<any>())
     );
   }
@@ -92,7 +94,7 @@ export class StewardClientService<T, E> {
     } else if (!headers) {
       headers = new HttpHeaders();
     }
-    return this.http.post(this.base_url + endpoint, formData, {headers: headers}).pipe(
+    return this.http.post(this.base_url + endpoint, formData, {headers: new HttpHeaders({'Authorization': 'Bearer ' + this.config.access_token})}).pipe(
       catchError(this.handleError<any>())
     );
   }
@@ -108,23 +110,7 @@ export class StewardClientService<T, E> {
         formData.append(key, data[key]);
       }
     });
-    return this.http.post(this.base_url + endpoint, formData, {headers: this.headers}).pipe(
-      catchError(this.handleError<any>())
-    );
-  }
-
-  putFormDataMultiPart(endpoint: string, data: T): Observable<ResponseWrapper<E>> {
-    const formData: FormData = new FormData();
-    Object.keys(data).forEach((key) => {
-      if (Array.isArray(data[key])) {
-        data[key].forEach(k2 => {
-          formData.append(key, k2);
-        });
-      } else {
-        formData.append(key, data[key]);
-      }
-    });
-    return this.http.put(this.base_url + endpoint, formData, {headers: this.headers}).pipe(
+    return this.http.post(this.base_url + endpoint, formData, {headers: new HttpHeaders({'Authorization': 'Bearer ' + this.config.access_token})}).pipe(
       catchError(this.handleError<any>())
     );
   }
