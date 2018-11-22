@@ -1,191 +1,189 @@
 <div class="card card-outline-default" *ngIf="enableFilterHeader">
-<div class="card-body">
-<form (ngSubmit)="processFilter(filterForm)" [formGroup]="filterForm">
+  <div class="card-body">
+    <form (ngSubmit)="processFilter(filterForm)" [formGroup]="filterForm">
 
-<div class="row">
-          <div class="col-md-3  mb-3" *ngFor="let control of filterComponents">
-            <label for="from">{{control.label}}: </label>
-            <div class="input-group">
-              <div class="input-group-append">
+      <div class="row">
+        <div class="col-md-3  mb-3" *ngFor="let control of filterComponents">
+          <label>{{control.label}}: </label>
+          <div class="input-group">
+            <div class="input-group-append">
                 <span class="input-group-text  form-icon-default">
                   <i [class]="control.icon"></i>
                 </span>
-              </div>
-  
-              <select *ngIf="isSelect(control.controlType)" class="form-control form-control-sm checking-field" [formControlName]="control.name">
-                <option value="" disabled selected>{{control.placeholder}}</option>
-                <option *ngFor="let o of control.controlType.options">{{o.text}}</option>
-              </select>
-  
-              <textarea *ngIf="isTextArea(control.controlType)" [cols]="control.controlType.cols" [rows]="control.controlType.rows" class="form-control form-control-sm checking-field"
-                [placeholder]="control.placeholder" [formControlName]="control.name"></textarea>
-  
-              <input *ngIf="isInput(control.controlType)" [type]="control.controlType.type" [placeholder]="control.placeholder" class="form-control form-control-sm checking-field"
-                [formControlName]="control.name" />
             </div>
-            <span class="help-block" *ngIf="filterForm.get(control.name).touched">
+
+            <select *ngIf="isSelect(control.controlType)" class="form-control form-control-sm checking-field"
+                    [formControlName]="control.name">
+              <option value="" disabled selected>{{control.placeholder}}</option>
+              <option *ngFor="let o of control.controlType.options">{{o.text}}</option>
+            </select>
+
+            <textarea *ngIf="isTextArea(control.controlType)" [cols]="control.controlType.cols"
+                      [rows]="control.controlType.rows" class="form-control form-control-sm checking-field"
+                      [placeholder]="control.placeholder" [formControlName]="control.name"></textarea>
+
+            <input *ngIf="isInput(control.controlType)" [type]="control.controlType.type"
+                   [placeholder]="control.placeholder" class="form-control form-control-sm checking-field"
+                   [formControlName]="control.name"/>
+          </div>
+          <span class="help-block" *ngIf="filterForm.get(control.name).touched">
               <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('required')">{{control.placeholder}} is required</span>
               <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('minlength')">Minimum of {{control.controlType.minLength}} characters</span>
               <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('maxlength')">Maximum of {{control.controlType.maxLength}} characters</span>
               <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('min')">Should be greater than {{control.controlType.min}}</span>
               <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('max')">Should be less than {{control.controlType.max}}</span>
             </span>
-          </div>
-</div>
+        </div>
+      </div>
 
-<div class="row" *ngIf="enableDefaultTableHeader">
-          <div class="col-md-3 mb-3">
-            <label for="from">From: </label>
-            <div class="input-group">
-              <div class="input-group-append">
+      <div class="row" *ngIf="enableDefaultTableHeader">
+        <div class="col-md-3 mb-3">
+          <label>From: </label>
+          <div class="input-group">
+            <div class="input-group-append">
                 <span class="input-group-text form-icon-default">
                   <i class="fa fa-calendar-o"></i>
                 </span>
-              </div>
-                <input 
-                type="text" 
-                class="form-control form-control-sm checking-field" 
-                id="inputTravelDate" 
-                formControlName="from" 
-                placeholder="From..."
-                #dpfrom="bsDatepicker"
-                bsDatepicker
-                [outsideClick]="false"
-                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red' }"
-                maxlength="30"
-                required
-                readonly
-                />
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" type="button" (click)="dpfrom.toggle()" [attr.aria-expanded]="dpfrom.isOpen"><i class="fa fa-th"></i></button>
-                  </div>
             </div>
-            <span class="help-block" *ngIf="filterForm.get('from').touched">
-                <span class="text-danger" *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 30 characters</span>
-            </span>
-          </div>
-          <div class="col-md-3 mb-3">
-            <label for="from">To: </label>
-            <div class="input-group">
-              <div class="input-group-append">
-                <span class="input-group-text form-icon-default">
-                  <i class="fa fa-calendar-o"></i>
-                </span>
-              </div>
-                <input 
-                type="text" 
-                class="form-control form-control-sm checking-field" 
-                id="inputTravelDate" 
-                formControlName="to" 
-                placeholder="To..."
-                #dpto="bsDatepicker"
-                bsDatepicker
-                [outsideClick]="false"
-                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red' }"
-                maxlength="30"
-                required
-                readonly
-                />
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" type="button" (click)="dpto.toggle()" [attr.aria-expanded]="dpto.isOpen"><i class="fa fa-th"></i></button>
-                  </div>  
-            </div>
-            <span class="help-block" *ngIf="filterForm.get('to').touched">
-                <span class="text-danger" *ngIf="filterForm.get('to').hasError('maxlength')">Maximum of 30 characters</span>
-            </span>
-          </div>
-          <div class="col-md-3 mb-3">
-            <label for="search">Search:</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text form-icon-default">
-                  <i class="fa fa-search"></i>
-                </span>
-              </div>
-              <input formControlName="needle" class="form-control form-control-sm checking-field" type="text"
-                placeholder="Search..." (keyup)="updateFilter($event)" />
+            <input
+              type="text"
+              class="form-control form-control-sm checking-field"
+              id="inputTravelDate"
+              formControlName="from"
+              placeholder="From..."
+              #dpfrom="bsDatepicker"
+              bsDatepicker
+              [outsideClick]="false"
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red' }"
+              maxlength="30"
+              required
+              readonly
+            />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" (click)="dpfrom.toggle()"
+                      [attr.aria-expanded]="dpfrom.isOpen"><i class="fa fa-th"></i></button>
             </div>
           </div>
           <span class="help-block" *ngIf="filterForm.get('from').touched">
-              <span class="text-danger" *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 200 characters</span>
+                <span class="text-danger"
+                      *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 30 characters</span>
+            </span>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label>To: </label>
+          <div class="input-group">
+            <div class="input-group-append">
+                <span class="input-group-text form-icon-default">
+                  <i class="fa fa-calendar-o"></i>
+                </span>
+            </div>
+            <input
+              type="text"
+              class="form-control form-control-sm checking-field"
+              id="inputTravelDate"
+              formControlName="to"
+              placeholder="To..."
+              #dpto="bsDatepicker"
+              bsDatepicker
+              [outsideClick]="false"
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-red' }"
+              maxlength="30"
+              required
+              readonly
+            />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" (click)="dpto.toggle()" [attr.aria-expanded]="dpto.isOpen">
+                <i class="fa fa-th"></i></button>
+            </div>
+          </div>
+          <span class="help-block" *ngIf="filterForm.get('to').touched">
+                <span class="text-danger"
+                      *ngIf="filterForm.get('to').hasError('maxlength')">Maximum of 30 characters</span>
+            </span>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label>Search:</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text form-icon-default">
+                  <i class="fa fa-search"></i>
+                </span>
+            </div>
+            <input formControlName="needle" class="form-control form-control-sm checking-field" type="text"
+                   placeholder="Search..." (keyup)="updateFilter($event)"/>
+          </div>
+        </div>
+        <span class="help-block" *ngIf="filterForm.get('from').touched">
+              <span class="text-danger"
+                    *ngIf="filterForm.get('from').hasError('maxlength')">Maximum of 200 characters</span>
           </span>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="pull-right inline-buttons">
+            <button class="btn btn-warning btn-sm" type="reset">
+              <i class="fa fa-repeat" aria-hidden="true"></i>
+              Reset
+            </button>
+            <button class="btn btn-success btn-sm pull-right" type="submit">
+              <i class="fa fa-filter" aria-hidden="true"></i>
+              Filter
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
 </div>
 
-<div class="row">
-	<div class="col-md-12">
-            <div class="pull-right inline-buttons">
-              <button class="btn btn-warning btn-sm" type="reset">
-                <i class="fa fa-repeat" aria-hidden="true"></i>
-                Reset
-              </button>
-              <button class="btn btn-success btn-sm pull-right" type="submit">
-                <i class="fa fa-filter" aria-hidden="true"></i>
-                Filter
-              </button>
-            </div>
-	</div>
-</div>
-      
-</form>
-</div>
-</div>
-  
-  <ngx-datatable 
-    #table 
-    [rowHeight]="tableRowHeight"
-    [footerHeight]="tableFooterHeight"
-    [headerHeight]="tableHeaderHeight" 
-    [scrollbarV]="verticalScrollActive"
-    [scrollbarH]="horizontalScrollActive"
-    [summaryRow]="enableSummary"
-    [summaryPosition]="summaryPosition"
-    [summaryHeight]="summaryHeight"
-    class="bootstrap"    
-    [columnMode]="'force'"
-    [rows]="page.content" 
-    [selected]="selected" 
-    [selectionType]="'checkbox'" 
-    (activate)="onActivate($event)" 
-    (select)='onSelect($event)'
-    [count]="page.totalElements" 
-    [offset]="page.number" 
-    [externalPaging]="true" 
-    [limit]="page.size" 
-    (page)="loadPage($event, null)">
-    <ngx-datatable-column [summaryFunc]="summaryFunc" [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="true" [resizeable]="false" [headerCheckboxable]="true"
-      [checkboxable]="true" *ngIf="enableCheckbox">
-    </ngx-datatable-column>
-    <ngx-datatable-column [summaryFunc]="(c.summaryFunc) ? c.summaryFunc : summaryFunc" [canAutoResize]="(c.canAutoResize) ? c.canAutoResize : true" [name]="c.columnName" [width]="c.width"
-      [sortable]="(c.sortable) ? c.sortable : true" [draggable]="(c.draggable) ? c.draggable : true" [resizeable]="(c.resizeable) ? c.resizeable : true"
-      *ngFor="let c of columns">
-      <ng-template let-column="column" ngx-datatable-header-template>
-        <strong>{{c.columnName}}</strong>
-      </ng-template>
-      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+<ngx-datatable
+  #table
+  [rowHeight]="tableRowHeight"
+  [footerHeight]="tableFooterHeight"
+  [headerHeight]="tableHeaderHeight"
+  [scrollbarV]="verticalScrollActive"
+  [scrollbarH]="horizontalScrollActive"
+  [summaryRow]="enableSummary"
+  [summaryPosition]="summaryPosition"
+  [summaryHeight]="summaryHeight"
+  class="bootstrap"
+  [columnMode]="'force'"
+  [rows]="page.content"
+  [selected]="selected"
+  [selectionType]="'checkbox'"
+  (activate)="onActivate($event)"
+  (select)='onSelect($event)'
+  [count]="page.totalElements"
+  [offset]="page.number"
+  [externalPaging]="true"
+  [limit]="page.size"
+  (page)="loadPage($event, null)">
+  <ngx-datatable-column [summaryFunc]="summaryFunc" [width]="30" [sortable]="false" [canAutoResize]="false"
+                        [draggable]="true" [resizeable]="false" [headerCheckboxable]="true"
+                        [checkboxable]="true" *ngIf="enableCheckbox">
+  </ngx-datatable-column>
+  <ngx-datatable-column [summaryFunc]="(c.summaryFunc) ? c.summaryFunc : summaryFunc"
+                        [canAutoResize]="(c.canAutoResize) ? c.canAutoResize : true" [name]="c.columnName"
+                        [width]="c.width"
+                        [sortable]="(c.sortable) ? c.sortable : true" [draggable]="(c.draggable) ? c.draggable : true"
+                        [resizeable]="(c.resizeable) ? c.resizeable : true"
+                        *ngFor="let c of columns; index as i;">
+    <ng-template let-column="column" ngx-datatable-header-template *ngIf="i==0">
+      <strong>#</strong>
+    </ng-template>
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" *ngIf="i==0">
         <span>
-            <!--{{(c.isDateColumn)?(getFieldValue(row, c.fieldName) | date:'medium') : getFieldValue(row, c.fieldName)}} -->
-            <!--{{
-              if(c.isDateColumn)
-              { 
-                (getFieldValue(row, c.fieldName) | date:'medium') 
-              }
-              else if(c.isCurrencyColumn)
-              { 
-                (getFieldValue(row, c.fieldName) | currency:'c.currencyText') 
-              }
-              else 
-              {
-                getFieldValue(row, c.fieldName)
-              }
-            }}-->
-            <!--<div [ngSwitch]="c.isDateColumn">
-              <div *ngSwitchCase="true">{{(getFieldValue(row, c.fieldName) | date:'medium')}}</div>
-              <div *ngSwitchDefault></div>
-            </div>
-            <div [ngSwitch]="c.isCurrencyColumn">
-              <div *ngSwitchCase="true">{{(getFieldValue(row, c.fieldName) | currency:'c.currencyText')}}</div>
-              <div *ngSwitchDefault></div>
-            </div> -->
+            {{rowIndex+1}}
+        </span>
+    </ng-template>
+
+    <ng-template let-column="column" ngx-datatable-header-template>
+      <strong>{{c.columnName}}</strong>
+    </ng-template>
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+        <span>
             <ng-container *ngIf="c.isDateColumn; then t10"></ng-container>
             <ng-container *ngIf="c.isCurrencyColumn && c.currencyText; then t40"></ng-container>
             <ng-container *ngIf="c.isCurrencyColumn && !c.currencyText; then t70"></ng-container>
@@ -201,39 +199,24 @@
                 {{getFieldValue(row, c.fieldName)}}
             </ng-template>
         </span>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column [summaryFunc]="summaryFunc" [name]="moreActions.name" *ngIf="moreActions" [sortable]="false" [canAutoResize]="false">
-      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column [summaryFunc]="summaryFunc" [name]="moreActions.name" *ngIf="moreActions" [sortable]="false"
+                        [canAutoResize]="false">
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
         <span>
           <div class="input-group-prepend">
-            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
+            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
               <i class="fa fa-list-ul" aria-hidden="true"></i>
             </button>
             <div class="dropdown-menu">
-              <a class="dropdown-item" *ngFor="let action of moreActions.actions" href="javascript:;" (click)="onActionClick({id: row[moreActions.idFieldName], actionName: action.actionName, actionRow: row})">{{action.actionName}}</a>
-              <!-- <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a> -->
+              <a class="dropdown-item" *ngFor="let action of moreActions.actions" href="javascript:;"
+                 (click)="onActionClick({id: row[moreActions.idFieldName], actionName: action.actionName, actionRow: row})">{{action.actionName}}</a>
             </div>
           </div>
         </span>
-      </ng-template>
-    </ngx-datatable-column>
-    <!-- <ngx-datatable-column name="Description">
-              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <span>
-                  {{value}}
-                </span>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Actions">
-              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <span>
-                  {{value}}
-                </span>
-              </ng-template>
-            </ngx-datatable-column> -->
-  </ngx-datatable>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

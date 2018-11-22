@@ -20,7 +20,6 @@ export class StewardClientService<T, E> {
   constructor(private http: HttpClient, private config: StewardConfig) {
     this.base_url = config.base_url;
     if (config.headers) {
-      // this.headers = config.headers.append('Content-Type', 'application/json; charset=utf-8');
       this.headers = config.headers;
     } else {
       this.headers = new HttpHeaders({
@@ -51,7 +50,10 @@ export class StewardClientService<T, E> {
   }
 
   delete(endpoint: string, data: T): Observable<ResponseWrapper<E>> {
-    return this.http.request('delete', this.base_url + endpoint, {headers: this.headers.append('Content-Type', 'application/json; charset=utf-8'), body: JSON.stringify(data)}).pipe(
+    return this.http.request('delete', this.base_url + endpoint, {
+      headers: this.headers.append('Content-Type', 'application/json; charset=utf-8'),
+      body: JSON.stringify(data)
+    }).pipe(
       catchError(this.handleError<any>())
     );
   }
@@ -62,16 +64,6 @@ export class StewardClientService<T, E> {
       params: this.getHttpParams(data)
     };
     return this.http.get(this.base_url + endpoint, options).pipe(
-      catchError(this.handleError<any>())
-    );
-  }
-
-
-  getFile(endpoint: string, data?: Map<string, string>): Observable<ResponseWrapper<E>> {
-    const options = {
-      params: this.getHttpParams(data)
-    };
-    return this.http.get(this.base_url + endpoint + '?access_token=' + this.token, options).pipe(
       catchError(this.handleError<any>())
     );
   }
@@ -88,7 +80,7 @@ export class StewardClientService<T, E> {
       formData.append(key, data[key]);
     });
     if (this.headers.get('Authorization') && (!headers)) {
-      headers = this.headers; // new HttpHeaders({'Authorization': 'Bearer ' + this.config.access_token});
+      headers = this.headers;
     } else if (!headers) {
       headers = new HttpHeaders();
     }
