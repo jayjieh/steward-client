@@ -23,7 +23,6 @@ export declare class StewardClientService<T, E> {
     put(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     delete(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     get(endpoint: string, data?: Map<string, string>): Observable<ResponseWrapper<E>>;
-    getFile(endpoint: string, data?: Map<string, string>): Observable<ResponseWrapper<E>>;
     /**
      * if
      * @param endpoint

@@ -84,7 +84,7 @@ export class StewardClientService<T, E> {
     } else if (!headers) {
       headers = new HttpHeaders();
     }
-    return this.http.post(this.base_url + endpoint, formData, {headers: new HttpHeaders({'Authorization': 'Bearer ' + this.config.access_token})}).pipe(
+    return this.http.post(this.base_url + endpoint, formData, {headers: headers}).pipe(
       catchError(this.handleError<any>())
     );
   }
