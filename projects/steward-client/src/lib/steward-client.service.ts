@@ -68,16 +68,6 @@ export class StewardClientService<T, E> {
     );
   }
 
-
-  getFile(endpoint: string, data?: Map<string, string>): Observable<ResponseWrapper<E>> {
-    const options = {
-      params: this.getHttpParams(data)
-    };
-    return this.http.get(this.base_url + endpoint + '?access_token=' + this.token, options).pipe(
-      catchError(this.handleError<any>())
-    );
-  }
-
   /**
    * if
    * @param endpoint
@@ -90,7 +80,7 @@ export class StewardClientService<T, E> {
       formData.append(key, data[key]);
     });
     if (this.headers.get('Authorization') && (!headers)) {
-      headers = this.headers; // new HttpHeaders({'Authorization': 'Bearer ' + this.config.access_token});
+      headers = this.headers;
     } else if (!headers) {
       headers = new HttpHeaders();
     }
