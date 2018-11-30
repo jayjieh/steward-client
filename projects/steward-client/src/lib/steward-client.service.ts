@@ -100,23 +100,7 @@ export class StewardClientService<T, E> {
         formData.append(key, data[key]);
       }
     });
-    return this.http.post(this.base_url + endpoint, formData, {headers: this.headers}).pipe(
-      catchError(this.handleError<any>())
-    );
-  }
-
-  putFormDataMultiPart(endpoint: string, data: T): Observable<ResponseWrapper<E>> {
-    const formData: FormData = new FormData();
-    Object.keys(data).forEach((key) => {
-      if (Array.isArray(data[key])) {
-        data[key].forEach(k2 => {
-          formData.append(key, k2);
-        });
-      } else {
-        formData.append(key, data[key]);
-      }
-    });
-    return this.http.put(this.base_url + endpoint, formData, {headers: this.headers}).pipe(
+    return this.http.post(this.base_url + endpoint, formData, {headers: new HttpHeaders({'Authorization': 'Bearer ' + this.config.access_token})}).pipe(
       catchError(this.handleError<any>())
     );
   }
