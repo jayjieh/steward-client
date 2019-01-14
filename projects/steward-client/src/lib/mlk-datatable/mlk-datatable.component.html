@@ -27,11 +27,18 @@
                    [formControlName]="control.name"/>
           </div>
           <span class="help-block" *ngIf="filterForm.get(control.name).touched">
-              <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('required')">{{control.placeholder}} is required</span>
-              <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('minlength')">Minimum of {{control.controlType.minLength}} characters</span>
-              <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('maxlength')">Maximum of {{control.controlType.maxLength}} characters</span>
-              <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('min')">Should be greater than {{control.controlType.min}}</span>
-              <span class="text-danger" *ngIf="filterForm.get(control.name).hasError('max')">Should be less than {{control.controlType.max}}</span>
+              <span class="text-danger"
+                    *ngIf="filterForm.get(control.name).hasError('required')">{{control.placeholder}} is required</span>
+              <span class="text-danger"
+                    *ngIf="filterForm.get(control.name).hasError('minlength')">Minimum of {{control.controlType.minLength}}
+                characters</span>
+              <span class="text-danger"
+                    *ngIf="filterForm.get(control.name).hasError('maxlength')">Maximum of {{control.controlType.maxLength}}
+                characters</span>
+              <span class="text-danger"
+                    *ngIf="filterForm.get(control.name).hasError('min')">Should be greater than {{control.controlType.min}}</span>
+              <span class="text-danger"
+                    *ngIf="filterForm.get(control.name).hasError('max')">Should be less than {{control.controlType.max}}</span>
             </span>
         </div>
       </div>
@@ -164,6 +171,18 @@
                         [draggable]="true" [resizeable]="false" [headerCheckboxable]="true"
                         [checkboxable]="true" *ngIf="enableCheckbox">
   </ngx-datatable-column>
+  <ngx-datatable-column [summaryFunc]="summaryFunc" [width]="30" [sortable]="false" [canAutoResize]="false"
+                        [draggable]="true" [resizeable]="false" [headerCheckboxable]="true"
+                        *ngFor="let c of columns; index as i;">
+    <ng-template let-column="column" ngx-datatable-header-template *ngIf="i==0">
+      <strong>#</strong>
+    </ng-template>
+    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" *ngIf="i==0">
+        <span>
+            {{rowIndex + 1}}
+        </span>
+    </ng-template>
+  </ngx-datatable-column>
   <ngx-datatable-column [summaryFunc]="(c.summaryFunc) ? c.summaryFunc : summaryFunc"
                         [canAutoResize]="(c.canAutoResize) ? c.canAutoResize : true" [name]="c.columnName"
                         [width]="c.width"
@@ -171,21 +190,7 @@
                         [resizeable]="(c.resizeable) ? c.resizeable : true"
                         *ngFor="let c of columns; index as i;">
     <ng-template let-column="column" ngx-datatable-header-template *ngIf="i==0">
-      <strong>#</strong>
-    </ng-template>
-    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" *ngIf="i==0">
-        <span>
-            {{rowIndex+1}}
-        </span>
-    </ng-template>
-
-    <ng-template let-column="column" ngx-datatable-header-template *ngIf="i==0">
       <strong>{{c.columnName}}</strong>
-    </ng-template>
-    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" *ngIf="i==0">
-        <span>
-            {{rowIndex+1}}
-        </span>
     </ng-template>
     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" *ngIf="i==0">
         <span>

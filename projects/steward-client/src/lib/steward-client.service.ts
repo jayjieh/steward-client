@@ -23,7 +23,8 @@ export class StewardClientService<T, E> {
       this.headers = config.headers;
     } else {
       this.headers = new HttpHeaders({
-        'Content-Type': 'application/json; charset=utf-8'
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
       });
     }
     if (config.access_token) {// append access token if the environment has access token
@@ -100,7 +101,7 @@ export class StewardClientService<T, E> {
         formData.append(key, data[key]);
       }
     });
-    return this.http.post(this.base_url + endpoint, formData, {headers: new HttpHeaders({'Authorization': 'Bearer ' + this.config.access_token})}).pipe(
+    return this.http.post(this.base_url + endpoint, formData, {headers: new HttpHeaders({'Authorization': 'Bearer ' + localStorage.getItem('access_token')})}).pipe(
       catchError(this.handleError<any>())
     );
   }
