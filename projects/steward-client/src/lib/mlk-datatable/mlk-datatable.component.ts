@@ -6,6 +6,7 @@ import {ResponseWrapper} from '../entities/wrappers/response-wrapper';
 import {StewardClientService} from '../steward-client.service';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {Queue} from 'queue-typescript';
+import {DatePipe} from '@angular/common';
 
 // const { Queue } = require('queue-typescript');
 
@@ -41,7 +42,7 @@ export class MlkDatatableComponent implements OnInit {
   emptySummaryFunc: () => null;
 
 
-  constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>) {
+  constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>,  private datePipe: DatePipe) {
   }
 
   /**
@@ -147,7 +148,8 @@ export class MlkDatatableComponent implements OnInit {
     } else {
       // f.get('from').setValue(new Date(this.filterForm.get('from').value));
       const fd = new Date(this.filterForm.get('from').value);
-      f.set('from', fd.toISOString());
+      // f.set('from', fd.toISOString());
+      f.set('from', this.datePipe.transform(fd, 'dd/MM/yyyy'));
     }
     if (!this.filterForm.get('to').touched) {// if to is not populated remove from request
       f.delete('to');
@@ -157,7 +159,8 @@ export class MlkDatatableComponent implements OnInit {
     } else {
       // f.get('to').setValue(new Date(this.filterForm.get('to').value));
       const td = new Date(this.filterForm.get('to').value);
-      f.set('to', td.toISOString());
+      // f.set('to', td.toISOString());
+      f.set('to', this.datePipe.transform(td, 'dd/MM/yyyy'));
     }
 
     this.loadPage({offset: this.page.number, limit: this.page.size}, f);
