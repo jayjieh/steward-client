@@ -6,8 +6,10 @@ import { ResponseWrapper } from '../entities/wrappers/response-wrapper';
 import { StewardClientService } from '../steward-client.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Queue } from 'queue-typescript';
+import { DatePipe } from '@angular/common';
 export declare class MlkDatatableComponent implements OnInit {
     private sterwardService;
+    private datePipe;
     tableRowHeight: number;
     tableFooterHeight: number;
     tableHeaderHeight: number;
@@ -32,7 +34,7 @@ export declare class MlkDatatableComponent implements OnInit {
     filter: Object;
     filterForm: FormGroup;
     emptySummaryFunc: () => null;
-    constructor(sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>);
+    constructor(sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>, datePipe: DatePipe);
     /**
      * Generate form control from filterComponents and also appending default controls ie. date filter and search controls
      */
