@@ -42,7 +42,7 @@ export class MlkDatatableComponent implements OnInit {
   emptySummaryFunc: () => null;
 
 
-  constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>,  private datePipe: DatePipe) {
+  constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>, private datePipe: DatePipe) {
   }
 
   /**
@@ -180,6 +180,10 @@ export class MlkDatatableComponent implements OnInit {
    */
   isSelect(control: any) {
     return control instanceof MlkSelect;
+  }
+
+  reset() {
+    this.ngOnInit();
   }
 
   /**

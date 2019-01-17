@@ -75,6 +75,7 @@ export declare class MlkDatatableComponent implements OnInit {
      * @param control
      */
     isSelect(control: any): boolean;
+    reset(): void;
     /**
      * Used to check if miliki control is textarea
      */
