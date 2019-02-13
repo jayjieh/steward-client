@@ -17,6 +17,7 @@ export declare class StewardClientService<T, E> {
      * Used to handle http post requests
      */
     post(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
+    postNoToken(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     /**
      * Used to handle http post requests
      */
