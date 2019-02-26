@@ -12,6 +12,7 @@ export declare class StewardClientService<T, E> {
     private headers;
     token: string;
     base_url: string;
+    private headersPlain;
     constructor(http: HttpClient, config: StewardConfig);
     /**
      * Used to handle http post requests
@@ -31,6 +32,7 @@ export declare class StewardClientService<T, E> {
      * @param headers
      */
     postFormData(endpoint: string, data: T, headers?: HttpHeaders): Observable<ResponseWrapper<E>>;
+    postFormAuthorized(endpoint: string, data: T, headers?: HttpHeaders): Observable<ResponseWrapper<E>>;
     postFormDataMultipart(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     private getHttpParams(data);
     /**

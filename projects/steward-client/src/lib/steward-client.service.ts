@@ -17,6 +17,8 @@ export class StewardClientService<T, E> {
   token: string;
   base_url = '/';
 
+  private headersPlain: HttpHeaders;
+
   constructor(private http: HttpClient, private config: StewardConfig) {
     this.base_url = config.base_url;
     if (config.headers) {
@@ -30,6 +32,11 @@ export class StewardClientService<T, E> {
     if (config.access_token) {// append access token if the environment has access token
       this.headers = this.headers.append('Authorization', 'Bearer ' + config.access_token);
     }
+
+    this.headersPlain = new HttpHeaders({
+      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    });
   }
 
   /**
@@ -92,6 +99,12 @@ export class StewardClientService<T, E> {
       headers = new HttpHeaders();
     }
     return this.http.post(this.base_url + endpoint, formData, {headers: headers}).pipe(
+      catchError(this.handleError<any>())
+    );
+  }
+
+  postFormAuthorized(endpoint: string, data: T, headers?: HttpHeaders): Observable<ResponseWrapper<E>> {
+    return this.http.post(this.base_url + endpoint, data, {headers: this.headersPlain}).pipe(
       catchError(this.handleError<any>())
     );
   }
