@@ -1,24 +1,29 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseWrapper } from './entities/wrappers/response-wrapper';
+import { Meta } from '@angular/platform-browser';
 export declare class StewardConfig {
     base_url: string;
     access_token?: string;
     headers?: HttpHeaders;
+    csrf: boolean;
 }
 export declare class StewardClientService<T, E> {
     private http;
     private config;
+    private meta;
     private headers;
     token: string;
     base_url: string;
+    csrf: string;
     private headersPlain;
-    constructor(http: HttpClient, config: StewardConfig);
+    constructor(http: HttpClient, config: StewardConfig, meta: Meta);
     /**
      * Used to handle http post requests
      */
     post(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
     postNoToken(endpoint: string, data: T): Observable<ResponseWrapper<E>>;
+    postLogin(endpoint: string, data: T): Observable<any>;
     /**
      * Used to handle http post requests
      */
