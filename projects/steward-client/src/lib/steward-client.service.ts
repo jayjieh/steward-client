@@ -74,9 +74,16 @@ export class StewardClientService<T, E> {
   }
 
   postNoToken(endpoint: string, data: T): Observable<ResponseWrapper<E>> {
-    return this.http.post(this.base_url + endpoint, JSON.stringify(data), {headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})}).pipe(
-      catchError(this.handleError<any>())
-    );
+    if (this.config.csrf == true) {
+      return this.http.post(this.base_url + endpoint, JSON.stringify(data), {headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8', 'X-CSRF-TOKEN': this.csrf})}).pipe(
+        catchError(this.handleError<any>())
+      );
+    } else {
+      return this.http.post(this.base_url + endpoint, JSON.stringify(data), {headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})}).pipe(
+        catchError(this.handleError<any>())
+      );
+    }
+
   }
 
   postLogin(endpoint: string, data: T): Observable<any> {
