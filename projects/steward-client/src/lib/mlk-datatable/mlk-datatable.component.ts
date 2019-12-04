@@ -7,6 +7,7 @@ import {StewardClientService} from '../steward-client.service';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {Queue} from 'queue-typescript';
 import {DatePipe} from '@angular/common';
+import {ExportAsConfig, ExportAsService, SupportedExtensions} from 'ngx-export-as';
 
 // const { Queue } = require('queue-typescript');
 
@@ -42,7 +43,30 @@ export class MlkDatatableComponent implements OnInit {
   emptySummaryFunc: () => null;
 
 
-  constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>, private datePipe: DatePipe) {
+  config: ExportAsConfig = {
+    type: 'pdf',
+    elementId: 'myTable',
+    options: {
+      jsPDF: {
+        orientation: 'landscape'
+      }
+    }
+  };
+
+
+  constructor(private sterwardService: StewardClientService<ResponseWrapper<Page<any>>, any>, private datePipe: DatePipe, private exportAsService: ExportAsService) {
+  }
+
+
+  exportAs(type: SupportedExtensions, opt?: string) {
+    this.config.type = type;
+    if (opt) {
+      this.config.options.jsPDF.orientation = opt;
+    }
+    this.exportAsService.save(this.config, 'DataExport');
+    // this.exportAsService.get(this.config).subscribe(content => {
+    //   console.log(content);
+    // });
   }
 
   /**

@@ -145,6 +145,17 @@
   </div>
 </div>
 
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-left inline-buttons">
+      <button class="btn btn-outline-success btn-sm pull-left" style="margin-right: 1em;" (click)="exportAs('pdf', 'landscape')">Export pdf</button>
+      <button class="btn btn-outline-primary btn-sm pull-left" style="margin-right: 1em;" (click)="exportAs('csv')">Export csv</button>
+      <button class="btn btn-outline-info btn-sm pull-left" style="margin-right: 1em;" (click)="exportAs('xml')">Export xml</button>
+    </div>
+  </div>
+</div>
+
 <ngx-datatable
   #table
   [rowHeight]="tableRowHeight"
@@ -166,7 +177,8 @@
   [offset]="page.number"
   [externalPaging]="true"
   [limit]="page.size"
-  (page)="loadPage($event, null)">
+  (page)="loadPage($event, null)"
+  id="myTable">
   <ngx-datatable-column [summaryFunc]="summaryFunc" [width]="30" [sortable]="false" [canAutoResize]="false"
                         [draggable]="true" [resizeable]="false" [headerCheckboxable]="true"
                         [checkboxable]="true" *ngIf="enableCheckbox">

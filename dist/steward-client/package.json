@@ -1,6 +1,6 @@
 {
   "name": "steward-client",
-  "version": "0.0.40",
+  "version": "0.0.45",
   "peerDependencies": {
     "@angular/common": "^6.0.3",
     "@angular/core": "^6.0.3",

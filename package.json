@@ -24,13 +24,14 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "@swimlane/ngx-datatable": "13.1.0",
-    "ngx-bootstrap": "3.0.1",
     "core-js": "^2.5.4",
+    "ngx-bootstrap": "3.0.1",
+    "ngx-export-as": "^1.2.5",
     "queue-typescript": "^1.0.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "6.1.0",
-    "zone.js": "^0.8.26",
-    "steward-client": "./projects/steward-client"
+    "steward-client": "./projects/steward-client",
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
@@ -40,7 +41,7 @@
     "@angular/language-service": "^6.0.3",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~8.9.4",
+    "@types/node": "^10.1.4",
     "codelyzer": "~4.2.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

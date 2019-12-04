@@ -7,6 +7,7 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {StewardConfig} from './steward-client.service';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import {ExportAsModule} from 'ngx-export-as';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
     NgxDatatableModule,
     CommonModule,
     BsDatepickerModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    ExportAsModule
   ],
   declarations: [StewardClientComponent, MlkDatatableComponent],
   exports: [StewardClientComponent, MlkDatatableComponent],
