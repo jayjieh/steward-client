@@ -26,7 +26,7 @@
     "@swimlane/ngx-datatable": "13.1.0",
     "core-js": "^2.5.4",
     "ngx-bootstrap": "3.0.1",
-    "ngx-export-as": "^1.2.5",
+    "ngx-export-as": "^1.14.1",
     "queue-typescript": "^1.0.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "6.1.0",
